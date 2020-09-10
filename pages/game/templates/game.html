@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% set page_head_title = 'Four in a Row' %}
+
+{% block page_head_css %}
+    <link rel="stylesheet" href="{{ url_for('game.static', filename='css/game.css') }}"/>
+{% endblock %}
+
+{% block page_body_main_content %}
+    <h1>Play Four in a Row</h1>
+    <h2> {{ message }}</h2>
+    <form method="POST" action="/makeMove">
+        <input type="hidden" name="colNum" id="colNumInput">
+        <input type="submit" id="submit"/>
+    </form>
+    <div class="grid-container" id="inputArea">
+    {% for col in range(board[0]|length) %}
+        <button onclick="fill_input({{ col }})" class="grid-item player{{ turn }} myBtn" />
+    {% endfor %}
+    </div>
+
+    <div class="grid-container">
+
+    {% for row in board %}
+            {% for value in row %}
+                <div class="grid-item player{{ value|int }}" {% if value>0 %} {% endif %}></div>
+            {% endfor %}
+    {% endfor %}
+    </div>
+    <br>
+    <a href="/" class="resetBtn">RESET GAME</a>
+
+{% endblock %}
+
+{% block page_body_footer %}{% endblock %}
+
+{% block page_body_js %}
+    <script src="{{ url_for('game.static', filename='js/game.js') }}"></script>
+{% endblock %}
